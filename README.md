@@ -57,7 +57,7 @@ dtoverlay=dwc2,dr_mode=host
 ```
 console=serial0,115200 multipath=off dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=ext4 rootwait fixrtc cloud-init=disabled
 ```
-- __Bước 4__: Bắt đầu mount thẻ SD để chỉnh sửa một số tài khoản người dùng.
+- __Bước 4__: Bắt đầu mount thẻ SD để thêm tài khoản người dùng và kết nối mật khẩu.
 ```
 - Tạo tệp để mount
 sudo mkdir /mnt/pi-root
@@ -114,4 +114,26 @@ cd ~
 sudo umount /mnt/pi-root
 
 - Lúc này khi khởi động Raspberry Pi 4 sẽ đăng nhập với user là ubuntu, password là truong123.
+```
+- __Bước 5__: Truy cập SSH vào Raspberry Pi 4 từ Laptop bằng public key
+```
+- Tạo SSH key trên laptop
+ssh-keygen -t ed25519 -C "pi@laptop"
+
+- Từ truy cập UART với Raspberry Pi, tạo thư mục và dán public key vào Raspberry Pi
+mkdir -p ~/.ssh
+nano ~/.ssh/authorized_keys
+>> dán nội dung trong tệp id_ed25519.pub từ laptop vào đây
+
+- Thay đổi quyền cho thư mục SSH
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+- Khởi động SSH trên Raspberry Pi
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo systemctl status ssh
+
+- Truy cập SSH từ laptop đã tạo public key
+ssh ubuntu@192.168.2.57
 ```
