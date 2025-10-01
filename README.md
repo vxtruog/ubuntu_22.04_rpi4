@@ -88,6 +88,27 @@ adm:x:4:ubuntu
 sudo mkdir /mnt/pi-root/home/ubuntu
 sudo chown 1001:1001 /mnt/pi-root/home/ubuntu
 
+- Thêm kết nối WiFi cho Raspberry Pi 4
+sudo nano /etc/netplan/50-cloud-init.yaml
+>> thêm đoạn
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  wifis:
+    wlan0:
+      optional: true
+      access-points:
+        "Ngoc Thuy":
+          password: "trongnam812"
+      dhcp4: true
+>> sau đó sửa quyền của tệp và chạy cấu hình
+sudo chmod 600 /etc/netplan/50-cloud-init.yaml
+sudo netplan apply
+>> tìm địa chỉ IP của Raspberry Pi 4
+ip addr show wlan0
+
 - Unmount
 cd ~
 sudo umount /mnt/pi-root
