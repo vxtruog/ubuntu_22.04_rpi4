@@ -137,3 +137,7 @@ sudo systemctl status ssh
 - Truy cập SSH từ laptop đã tạo public key
 ssh ubuntu@192.168.2.57
 ```
+
+# Cài đặt ROS2 Humble trên Raspberry Pi 4
+- https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
+- Lựa chọn phiên bản ros-humble-ros-base để chạy không cần GUI cho nhẹ chương trình.
