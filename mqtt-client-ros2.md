@@ -4,6 +4,11 @@
 ```
 mkdir -p mqtt_ws/src && cd ~/mqtt_ws/src
 git clone https://github.com/ika-rwth-aachen/mqtt_client.git
+```
+- Cài đặt môi trường python2 và xây dựng packages
+```
+sudo apt-get install python3-pip
+sudo apt install python3-colcon-common-extensions
 
 cd ~/mqtt_ws
 colcon build --packages-up-to mqtt_client --cmake-args -DCMAKE_BUILD_TYPE=Release
