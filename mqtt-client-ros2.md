@@ -38,3 +38,9 @@ ros2 topic pub /ping/ros std_msgs/msg/String "{data: 'Hello MQTT'}"
 # Tài liệu tham khảo thêm
 - https://zenn.dev/tasada038/articles/f011ca5d5a2f3f
 - https://docs.ros.org/en/noetic/api/mqtt_client/html/index.html
+
+# Phân tích mã nguồn mqtt_client_interfaces
+- Tệp .msg định nghĩa cấu trúc dữ liệu được truyền qua topic.
+- Tệp .srv định nghĩa cấu trúc dữ liệu cho yêu cầu và phản hồi trong service, (request / --- / response).
+- Tệp package.xml mô tả thông tin và phụ thuộc (metadata) của một gói ROS2.
+- Tệp CMakelists.txt là tệp cấu hình build chính của một package.
