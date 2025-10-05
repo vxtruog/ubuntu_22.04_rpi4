@@ -44,3 +44,4 @@ ros2 topic pub /ping/ros std_msgs/msg/String "{data: 'Hello MQTT'}"
 - Tệp .srv định nghĩa cấu trúc dữ liệu cho yêu cầu và phản hồi trong service, (request / --- / response).
 - Tệp package.xml mô tả thông tin và phụ thuộc (metadata) của một gói ROS2.
 - Tệp CMakelists.txt là tệp cấu hình build chính của một package.
+- Các code trong tệp .msg và .srv sau khi build sẽ thành các tệp header trong thư mục /build/mqtt_client_interfaces/rosidl_generator_cpp/mqtt_client_interfaces/
