@@ -1,4 +1,4 @@
-# Một số lệnh cơ bản
+# Một số lệnh cơ bản dùng trong CMakelists.txt trong ROS2
 - Khai báo phiên bản cho dự án
 ```
 cmake_minimum_required(VERSION x.xx)
@@ -30,6 +30,12 @@ target_link_libraries(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<library_na
 - Mở rộng tệp thực thi hoặc tệp thư viện khi muốn thêm một tính năng mới
 ```
 target_sources(<CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME> PUBLIC/PRIVATE "<source_code>")
+```
+- Sau khi hoàn thành thêm các tệp và liên kết, cài tệp thực thi và thư viện vào đúng vị trí trong workspace để ROS2 có thể tìm thấy và chạy được
+```
+install(TARGETS
+  <CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME>
+  DESTINATION lib/${PROJECT_NAME}
 ```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
