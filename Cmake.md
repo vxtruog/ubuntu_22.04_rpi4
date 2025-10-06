@@ -34,7 +34,10 @@ add_subdirectory("<directory_link>")
 ```
 - Liên kết thư viện trong thư mục Cmakelists.txt con với thư mục Cmakelists.txt chính
 ```
-- Trong thư mục Cmakelists.txt con
-  add_library(profilerLib INTERFACE)
-  target_include_directories(profilerLib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
+- Trong thư mục CMakelists.txt con
+  add_library()
+  target_include_directories()
+- Trong thư mục CMakelists.txt chính
+  add_subdirectory()
+  target_link_libraries()
 ```
