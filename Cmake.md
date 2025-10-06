@@ -23,6 +23,10 @@ add_library(<library_name> STATIC/SHARED "<source_code>")
 ```
 target_link_libraries(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<library_name>")
 ```
+- Mở rộng tệp thực thi hoặc tệp thư viện khi muốn thêm một tính năng mới
+```
+target_sources(<CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME> PUBLIC/PRIVATE "<source_code>")
+```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
 ```
