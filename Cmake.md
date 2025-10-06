@@ -11,9 +11,13 @@ set(CMAKE_CXX_STANDARD 17)
 ```
 add-executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code_name>")\
 ```
-- Liên kết thư viện trong dự án
+- Liên kết tệp thực thi với các tệp header trong dự án
 ```
 target_include_directories(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<include_link>")
+```
+- Liên kết tệp thực thi với các tệp thư viện trong dự án
+```
+target_link_libraries(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<library_name>")
 ```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
