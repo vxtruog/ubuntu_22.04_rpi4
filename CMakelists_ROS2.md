@@ -19,7 +19,7 @@ add_executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code>")
 ```
 target_include_directories(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<include_link>")
 ```
-- Thêm một tệp thư viện trong dự án
+- Thêm một tệp thư viện trong dự án, có source code để build
 ```
 add_library(<library_name> STATIC/SHARED "<source_code>")
 ```
@@ -38,6 +38,11 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 ```
+- Tìm thư viện có sẵn trong hệ thống để liên kết
+```
+find_library(<var_library_name> <library_name> <library_path> REQUIRED)
+<library_path> chỉ cần khi dùng thư viện không có sẵn trong hệ thống và không có source code.
+```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
 ```
@@ -45,10 +50,10 @@ add_subdirectory("<directory_link>")
 ```
 - Liên kết thư viện trong thư mục Cmakelists.txt con với thư mục Cmakelists.txt chính
 ```
-- Trong thư mục CMakelists.txt con
+- Trong thư mục CMakelists.txt con:
   add_library()
   target_include_directories()
-- Trong thư mục CMakelists.txt chính
+- Trong thư mục CMakelists.txt chính:
   add_subdirectory()
   target_link_libraries()
 ```
