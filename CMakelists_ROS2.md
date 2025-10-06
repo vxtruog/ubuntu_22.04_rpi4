@@ -36,6 +36,7 @@ target_sources(<CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME> PUBLIC/PRIVATE "<sour
 install(TARGETS
   <CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME>
   DESTINATION lib/${PROJECT_NAME}
+)
 ```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
