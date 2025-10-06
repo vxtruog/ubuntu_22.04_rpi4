@@ -1,4 +1,8 @@
 # Một số lệnh cơ bản
+- Khai báo phiên bản cho dự án
+```
+cmake_minimum_required(VERSION x.xx)
+```
 - Khai báo dự án
 ```
 project(<CMAKE_PROJECT_NAME>)
