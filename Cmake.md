@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 ```
 - Thêm một tệp thực thi trong dự án
 ```
-add_executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code>")\
+add_executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code>")
 ```
 - Liên kết tệp thực thi với các tệp header trong dự án
 ```
