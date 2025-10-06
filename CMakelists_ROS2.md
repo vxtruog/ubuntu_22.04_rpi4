@@ -61,6 +61,19 @@ find_library(<var_library_name> <library_name> <library_path> REQUIRED)
 ```
 find_package(<package_name> REQUIRED COMPONENTS <component_name>)
 ```
+
+# Lệnh tóm tắt khi dùng CMakelists.txt trong ROS2
+- Có thể thay bộ ba thao tác dưới đây thành lệnh ament_target_dependencies()
+```
+target_include_directories()
+target_link_libraries()
+target_compile_definitions()
+```
+- Cấu trúc lệnh ament_target_dependencies()
+```
+ament_target_dependencies(<target_name> <dependencies>)
+```
+
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
 ```
