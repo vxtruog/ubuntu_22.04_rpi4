@@ -57,6 +57,10 @@ find_library(<var_library_name> <library_name> <library_path> REQUIRED)
 <library_name> không cần tiền tố "lib" và phần đuôi mở rộng.
 <library_path> chỉ cần khi dùng thư viện không nằm trong các thư mục hệ thống chuẩn.
 ```
+- Tìm gói có sẵn trong hệ thống để liên kết
+```
+find_package(<package_name> REQUIRED COMPONENTS <component_name>)
+```
 # Sử dụng với những dự án hệ thống hơn
 - Chạy tệp CMakelists.txt trong thư mục con để có tài nguyên dùng tại thư mục chính
 ```
