@@ -33,9 +33,22 @@ target_sources(<CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME> PUBLIC/PRIVATE "<sour
 ```
 - Sau khi hoàn thành thêm các tệp và liên kết, cài tệp thực thi và thư viện vào đúng vị trí trong workspace để ROS2 có thể tìm thấy và chạy được
 ```
+- Cài tệp thực thi hoặc thư viện
 install(TARGETS
   <CMAKE_PROJECT_NAME/EXEC_NAME/LIBRARY_NAME>
   DESTINATION lib/${PROJECT_NAME}
+)
+
+- Cài tệp header hoặc thư mục header
+install(DIRECTORY
+  <HEADER_FILE/INCLUDE_FOLDER>
+  DESTINATION include
+)
+
+- Cài tệp config hoặc tệp launch
+install(DIRECTORY
+  launch/ config/
+  DESTINATION share/${PROJECT_NAME}
 )
 ```
 - Tìm thư viện có sẵn trong hệ thống để liên kết
