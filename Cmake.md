@@ -9,11 +9,15 @@ set(CMAKE_CXX_STANDARD 17)
 ```
 - Thêm một tệp thực thi trong dự án
 ```
-add_executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code_name>")\
+add_executable(<CMAKE_PROJECT_NAME/EXEC_NAME> "<source_code>")\
 ```
 - Liên kết tệp thực thi với các tệp header trong dự án
 ```
 target_include_directories(<CMAKE_PROJECT_NAME/EXEC_NAME> PUBLIC/PRIVATE "<include_link>")
+```
+- Thêm một tệp thư viện trong dự án
+```
+add_library(<library_name> STATIC/SHARED "<source_code>")
 ```
 - Liên kết tệp thực thi với các tệp thư viện trong dự án
 ```
