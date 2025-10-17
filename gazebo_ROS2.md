@@ -20,6 +20,7 @@ sudo apt-get install ros-humble-ros-ign-bridge
 sudo apt-get install ros-humble-teleop-twist-keyboard
 ```
 
+# Thiết lập workspace
 ```
 - Tạo workspace, tạo thư mục /src trong workspace và chạy lệnh
 colcon build
@@ -30,3 +31,18 @@ ros2 pkg create --build-type ament_cmake mobile_dd_robot
   + model: chứa tệp mã Xacro (định nghĩa một số biến) và URDF (chỉ định hình học của robot) của mô hình
 - Truy cập thư mục model, tạo robot.xacro và robot.gazebo
 - Truy cập thư mục launch, tạo tệp gazebo_model.launch.py
+```
+
+```
+- Thêm phụ thuộc và tệp package.xml
+<exec_depend>joint_state_publisher</exec_depend>
+<exec_depend>robot_state_publisher</exec_depend>
+<exec_depend>gazebo_ros</exec_depend>
+<exec_depend>xacro</exec_depend>
+<exec_depend>ros_gz_bridge</exec_depend>
+- Điều chỉnh tệp CMakelists.txt
+install(
+  DIRECTORY launch model
+  DESTINATION share/${PROJECT_NAME}
+)
+```
