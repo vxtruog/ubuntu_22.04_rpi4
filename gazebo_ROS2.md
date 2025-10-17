@@ -46,3 +46,22 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 ```
+
+```
+- Build lại workspace sau khi đã thiết lập
+colcon build
+source ~/vxtruog_gazebo/install/setup.bash
+```
+
+# Chạy chương trình
+```
+ros2 launch mobile_dd_robot gazebo_model.launch.py
+```
+
+# Điều khiển
+```
+- Mở tệp terminal khác
+source /opt/ros/humble/setup.bash
+source ~/vxtruog_gazebo/install/setup.bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
