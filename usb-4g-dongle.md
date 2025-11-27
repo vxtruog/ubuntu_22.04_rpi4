@@ -7,6 +7,5 @@ ip addr show eth1
 
 ip route
 
-ip route get 8.8.8.8
-
+ping -c 4 8.8.8.8
 ```
