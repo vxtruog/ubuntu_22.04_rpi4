@@ -75,7 +75,7 @@ ubuntu:x:1001:1001:Ubuntu:/home/ubuntu:/bin/bash
 - Thêm password vào /etc/shadow
 sudo nano /mnt/pi-root/etc/shadow
 >> thêm dòng
-ubuntu:$6$...:19777:0:99999:7:::
+ubuntu:$6$<điền đầy đủ>:19777:0:99999:7:::
 
 - Thêm group cho user tại /etc/group
 sudo nano /mnt/pi-root/etc/group
@@ -87,6 +87,26 @@ adm:x:4:ubuntu
 - Tạo thư mục home cho user
 sudo mkdir /mnt/pi-root/home/ubuntu
 sudo chown 1001:1001 /mnt/pi-root/home/ubuntu
+
+- Unmount
+cd ~
+sudo umount /mnt/pi-root
+
+- Lúc này khi khởi động Raspberry Pi 4 sẽ đăng nhập với user là ubuntu, password là truong123.
+```
+- __Bước 5__: Truy cập SSH vào Raspberry Pi 4 từ Laptop bằng public key
+```
+- Tạo SSH key trên laptop
+ssh-keygen -t ed25519 -C "pi@laptop"
+
+- Từ truy cập UART với Raspberry Pi, tạo thư mục và dán public key vào Raspberry Pi
+mkdir -p ~/.ssh
+nano ~/.ssh/authorized_keys
+>> dán nội dung trong tệp id_ed25519.pub từ laptop vào đây
+
+- Thay đổi quyền cho thư mục SSH
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
 
 - Thêm kết nối WiFi cho Raspberry Pi 4
 sudo nano /etc/netplan/50-cloud-init.yaml
@@ -108,26 +128,6 @@ sudo chmod 600 /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
 >> tìm địa chỉ IP của Raspberry Pi 4
 ip addr show wlan0
-
-- Unmount
-cd ~
-sudo umount /mnt/pi-root
-
-- Lúc này khi khởi động Raspberry Pi 4 sẽ đăng nhập với user là ubuntu, password là truong123.
-```
-- __Bước 5__: Truy cập SSH vào Raspberry Pi 4 từ Laptop bằng public key
-```
-- Tạo SSH key trên laptop
-ssh-keygen -t ed25519 -C "pi@laptop"
-
-- Từ truy cập UART với Raspberry Pi, tạo thư mục và dán public key vào Raspberry Pi
-mkdir -p ~/.ssh
-nano ~/.ssh/authorized_keys
->> dán nội dung trong tệp id_ed25519.pub từ laptop vào đây
-
-- Thay đổi quyền cho thư mục SSH
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
 
 - Khởi động SSH trên Raspberry Pi
 sudo systemctl enable ssh
