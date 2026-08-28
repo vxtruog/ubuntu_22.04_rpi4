@@ -23,7 +23,7 @@ class LidarProcessor : public rclcpp::Node
         {
             RCLCPP_INFO(
                 this->get_logger(),
-                "frame_id: %s, range_min: %.2f m, range_max: %.2f m, angle_min: %.4f rad, angle_max: %.4f rad\n",
+                "frame_id: %s, range_min: %.2f m, range_max: %.2f m, angle_min: %.4f rad, angle_max: %.4f rad",
                 msg->header.frame_id.c_str(),
                 msg->range_min,
                 msg->range_max,
@@ -56,7 +56,7 @@ class LidarProcessor : public rclcpp::Node
 
             RCLCPP_INFO(
                 this->get_logger(),
-                "total_points: %zu, valid_points: %zu, invalid_points: %zu, out_of_range: %zu",
+                "total_points: %zu, valid_points: %zu, invalid_points: %zu, out_of_range: %zu\n",
                 msg->ranges.size(),
                 valid_count,
                 invalid_count,
