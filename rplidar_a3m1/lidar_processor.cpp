@@ -1,8 +1,35 @@
 #include <memory>
+#include <vector>
 #include <cmath>
+#include <functional>
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+
+struct Point2D
+{
+    float x;
+    float y;
+    bool valid;
+};
+
+float calculate_curvature(const std::vector<Point2D>& points, size_t index, size_t window_size)
+{
+    size_t half_window = window_size / 2;
+    float diff_x = 0.0f;
+    float diff_y = 0.0f;
+
+    for(int i = -half_window; i <= half_window; ++i)
+    {
+        if(i == 0)
+            continue;
+
+        diff_x += points[index + i].x - points[index].x;
+        diff_y += points[index + i].y - points[index].y;
+    }
+
+    return diff_x * diff_x + diff_y * diff_y;
+}
 
 class LidarProcessor : public rclcpp::Node
 {
@@ -23,45 +50,37 @@ class LidarProcessor : public rclcpp::Node
         {
             RCLCPP_INFO(
                 this->get_logger(),
-                "frame_id: %s, range_min: %.2f m, range_max: %.2f m, angle_min: %.4f rad, angle_max: %.4f rad",
+                "frame_id: %s, r_min: %.2f m, r_max: %.2f m, theta_min: %.4f rad, theta_max: %.4f rad",
                 msg->header.frame_id.c_str(),
                 msg->range_min,
                 msg->range_max,
                 msg->angle_min,
                 msg->angle_max
             );
-            
-            size_t valid_count = 0;
-            size_t invalid_count = 0;
-            size_t out_of_range_count = 0;
+
+            std::vector<Point2D> points(msg->ranges.size());
             
             for(size_t i = 0; i < msg->ranges.size(); i++)
             {
-                float distance = msg->ranges[i];
+                float r = msg->ranges[i];
                 
-                if(!std::isfinite(distance))
+                if(!std::isfinite(r) || r < msg->range_min || r > msg->range_max)
                 {
-                    invalid_count++;
+                    points[i].valid = false;
                     continue;
                 }
 
-                if(distance < msg->range_min || distance > msg->range_max)
-                {
-                    out_of_range_count++;
-                    continue;
-                }
-                
-                valid_count++;
+                float theta = msg->angle_min + i * msg->angle_increment;
+
+                points[i].x = r * std::cos(theta);
+                points[i].y = r * std::sin(theta);
+                points[i].valid = true;
             }
 
-            RCLCPP_INFO(
-                this->get_logger(),
-                "total_points: %zu, valid_points: %zu, invalid_points: %zu, out_of_range: %zu\n",
-                msg->ranges.size(),
-                valid_count,
-                invalid_count,
-                out_of_range_count
-            );
+            for(size_t i = 5; i <= msg->ranges.size() - 5; ++i)
+            {
+                float curvature = calculate_curvature(points, i, 11);
+            }
         }
 
         rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
