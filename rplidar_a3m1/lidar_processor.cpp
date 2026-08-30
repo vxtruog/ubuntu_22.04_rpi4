@@ -13,19 +13,18 @@ struct Point2D
     bool valid;
 };
 
-float calculate_curvature(const std::vector<Point2D>& points, size_t index, size_t window_size)
+float calculate_curvature(const std::vector<Point2D>& points, size_t index, size_t half_window)
 {
-    size_t half_window = window_size / 2;
     float diff_x = 0.0f;
     float diff_y = 0.0f;
 
-    for(int i = -half_window; i <= half_window; ++i)
+    for(size_t i = 1; i <= half_window; i++)
     {
-        if(i == 0)
-            continue;
-
         diff_x += points[index + i].x - points[index].x;
+        diff_x += points[index - i].x - points[index].x;
+
         diff_y += points[index + i].y - points[index].y;
+        diff_y += points[index - i].y - points[index].y;
     }
 
     return diff_x * diff_x + diff_y * diff_y;
@@ -77,9 +76,10 @@ class LidarProcessor : public rclcpp::Node
                 points[i].valid = true;
             }
 
-            for(size_t i = 5; i <= msg->ranges.size() - 5; ++i)
+            size_t half_window = 5;
+            for(size_t i = half_window; i < msg->ranges.size() - half_window; i++)
             {
-                float curvature = calculate_curvature(points, i, 11);
+                float curvature = calculate_curvature(points, i, half_window);
             }
         }
 
