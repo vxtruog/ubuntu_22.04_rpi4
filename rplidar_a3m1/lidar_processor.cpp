@@ -5,6 +5,8 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
+#include "sensor_msgs/point_cloud2_iterator.hpp"
 
 struct Point2D
 {
@@ -57,7 +59,13 @@ class LidarProcessor : public rclcpp::Node
                     "/scan",
                     10,
                     std::bind(&LidarProcessor::scan_callback, this, std::placeholders::_1)
-                );           
+                );       
+                
+            publisher_ =
+                this->create_publisher<sensor_msgs::msg::PointCloud2>(
+                    "/point_cloud",
+                    10
+                );
         }
     
     private:
@@ -73,23 +81,67 @@ class LidarProcessor : public rclcpp::Node
                 msg->angle_max
             );
 
+            // ==========================================
+            // 1. Chuyển LaserScan → Point2D
+            // ==========================================
             std::vector<Point2D> points(msg->ranges.size());
             
             for(size_t i = 0; i < msg->ranges.size(); i++)
             {
                 float r = msg->ranges[i];
                 
+                // Kiểm tra tính hợp lệ của khoảng cách
                 if(!std::isfinite(r) || r < msg->range_min || r > msg->range_max)
                 {
                     points[i].valid = false;
                     continue;
                 }
 
+                // Chuyển đổi dữ liệu tọa độ quét thành dạng Đề-các
                 float theta = msg->angle_min + i * msg->angle_increment;
-
                 points[i].x = r * std::cos(theta);
                 points[i].y = r * std::sin(theta);
                 points[i].valid = true;
+            }
+
+            // ==========================================
+            // 2. Publish PointCloud2
+            // ==========================================
+            sensor_msgs::msg::PointCloud2 cloud;
+            cloud.header = msg->header;
+            cloud.height = 1;
+
+            sensor_msgs::PointCloud2Modifier modifier(cloud);
+            modifier.setPointCloud2FieldsByString(1, "xyz");
+
+            size_t valid_count =
+                std::count_if(
+                    points_begin(),
+                    points_end(),
+                    [](const Point2D& p)
+                    {
+                        return p.valid;
+                    }
+                );
+
+            modifier.resize(valid_count);
+
+            sensor_msgs::PointCloud2Iterator<float> iter_x(cloud, "x");
+            sensor_msgs::PointCloud2Iterator<float> iter_y(cloud, "y");
+            sensor_msgs::PointCloud2Iterator<float> iter_z(cloud, "z");
+
+            for (const auto& point : points)
+            {
+                if (!point.valid)
+                    continue;
+
+                *iter_x = point.x;
+                *iter_y = point.y;
+                *iter_z = 0.0f;
+
+                ++iter_x;
+                ++iter_y;
+                ++iter_z;
             }
 
             size_t half_window = 5;
@@ -118,6 +170,7 @@ class LidarProcessor : public rclcpp::Node
         }
 
         rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subscription_;
+        rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_;
 };
 
 int main(int argc, char * argv[])
