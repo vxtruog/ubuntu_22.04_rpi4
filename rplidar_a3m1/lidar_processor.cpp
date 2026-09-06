@@ -116,8 +116,8 @@ class LidarProcessor : public rclcpp::Node
 
             size_t valid_count =
                 std::count_if(
-                    points_begin(),
-                    points_end(),
+                    points.begin(),
+                    points.end(),
                     [](const Point2D& p)
                     {
                         return p.valid;
