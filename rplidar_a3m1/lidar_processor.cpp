@@ -145,6 +145,8 @@ class LidarProcessor : public rclcpp::Node
                 ++iter_z;
             }
 
+            publisher_->publish(cloud);
+
             size_t half_window = 5;
             std::vector<CurvaturePoint> curvature_points;
 
